@@ -6,8 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddControllersWithViews();
-
 var connectString = builder.Configuration.GetConnectionString("QbdulichContext");
 builder.Services.AddDbContext<QbdulichContext>(x => x.UseSqlServer(connectString));
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -15,6 +13,10 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnCh
     .AddEnvironmentVariables();
 builder.Services.AddSession();
 builder.Services.AddSession();
+
+
+
+
 
 var app = builder.Build();
 

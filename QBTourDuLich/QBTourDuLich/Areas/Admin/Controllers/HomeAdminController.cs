@@ -6,7 +6,7 @@ using QBTourDuLich.Models.Authentication;
 using X.PagedList;
 
 //asdasdd
-namespace QLTourDuLichAPI.Areas.Admin.Controllers
+namespace QBTourDuLich.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("Admin")]

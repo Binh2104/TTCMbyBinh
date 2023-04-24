@@ -23,7 +23,7 @@
                         <tr class="table-info">
                                 <th>Mã Địa Điểm</th>
                                 <th>Tên Địa Điểm</th>
-                                <th>Miền</th>
+                                <th>Mô Tả</th>
                                 <th>Ảnh</th>
                                 <th></th>
                                 <th></th>
@@ -53,23 +53,14 @@
                             <input type="text" class="form-control" id="tendd" placeholder="Tên địa điểm">
                         </div>
                         <div class="form-group">
-                            <label for="mien">Miền</label>
-                            <select class="form-control form-control-lg" id="mien">
-                              
-                                    <option value="Bắc">Bắc</option>
-                                    <option value="Trung">Trung</option>
-                                    <option value="Nam">Nam</option>
-                              
-                            </select>
+                            <label for="mota">Mô Tả</label>
+                            <input type="text" class="form-control" id="mota" placeholder="Mô tả">
                         </div>
                         <div class="form-group">
                             <label for="anhdaidien">Ảnh đại diện:</label>
                             <input type="file" id="avatar" name="anhdaidien" required>
                         </div>
-                        <div class="form-group">
-                            <label for="mota">Mô Tả</label>
-                            <input type="text" class="form-control" id="mota" placeholder="Mô tả">
-                        </div>
+                       
                         <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertDiemThamQuan()">
                         <i class="mdi mdi-upload btn-icon-prepend"></i>Thêm
                     </button>
