@@ -1,7 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using QBTourDuLich.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews();
+
+var connectString = builder.Configuration.GetConnectionString("QbdulichContext");
+builder.Services.AddDbContext<QbdulichContext>(x => x.UseSqlServer(connectString));
+builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables();
+builder.Services.AddSession();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -19,6 +32,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
+
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
