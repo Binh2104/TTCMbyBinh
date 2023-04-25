@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_LayoutChiTietEvent.cshtml";
+}
+@using X.PagedList.Mvc.Core
+@model QBTourDuLich.Models.Event
+<section class="section section-archive">
+	<div class="container" style="margin-top: 80px;">
+		<div class="row">
+			<div class="content">
+                <div class="content-single">
+                    @foreach (var item in ViewBag.sk)
+                    {
+					<div class="content-single-title">					
+						<h3>@item.MoTa</h3>
+							<img src="@Url.Content("../img/AnhTinTuc/"+item.TenFileAnh)" class="image">
+					</div>
+					<div class="content-single-body">
+						<p>@item.NoiDung</p>
+						
+						<div class="label">
+							<a href=""><span class="ion-pricetags"></span> &nbsp; News</a>
+							<a href=""><span class="ion-android-share-alt"></span> &nbsp; Share</a>
+							<a href=""><span class="ion-heart"></span> &nbsp; Like</a>
+						</div>
+					</div>
+						}
+					<div class="content-single-footer">
+							<h3 class="text-center">
+								Bài viết liên quan
+							</h3>
+							<div class="terkait">
+								<div class="col">
+									<img src="../img/AnhTinTuc/anhtt1.jpg"> <br><br>
+									<a href="#">
+										<h3>
+											Thống nhất lựa chọn hình ảnh...
+										</h3>
+									</a>
+								</div>
+								<div class="col">
+									<img src="../img/AnhTinTuc/anhtt2.jpg"> <br><br>
+									<a href="#">
+										<h3>
+											Trưng bày các giá trị, sản...
+										</h3>
+									</a>
+								</div>
+								<div class="col">
+									<div class="col-title">
+										<img src="../img/AnhTinTuc/anhtt3.jpg">
+									</div>
+									<div class="col-body">
+										<a href="#">
+											<h3>
+												Phú Quốc Hòn đảo có thiên...
+											</h3>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>				</div>
+			</div>
+				<div class="aside">
+					<div class="row">
+						<div class="aside-content">
+							<form method="POST">
+								<div class="content-input">
+									<input type="text" name="cari" class="form-control" placeholder="Search ...">
+								</div>
+								<div class="content-btn">
+									<button type="submit" class="btn-search"><i class="ion-search"></i></button>
+								</div>
+							</form>
+						</div>
+						<div class="aside-content">
+							<div class="content-title">
+								<b>Loại</b>
+							</div>
+							<div class="content-body">
+								<ul style="padding: 0;list-style: none;">
+									<li><a asp-controller="home" asp-action="TinTuc">Tin Tức</a></li>
+									<li><a asp-controller="home" asp-action="event">Văn Hóa</a></li>
+									<li><a asp-controller="home" asp-action="event">Sự Kiện</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="aside-content">
+							<div class="content-title">
+								<b>Giới Thiệu</b>
+							</div>
+							<div class="content-body">
+								<ul style="padding: 0;list-style: none;">
+												@foreach (var item in ViewBag.sk)
+												{
+										<li><a asp-controller="home" asp-action="chitietEvent" asp-route-mask="@item.MaSk">@item.MoTa</a></li>
+												}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+		</div>
+	</div>
+</section>
+

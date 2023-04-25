@@ -19,7 +19,7 @@
 				<span class="ion-ios-telephone "></span> &nbsp;
 				<b>@Model.Sdt</b> 
 				<br/>
-				<a asp-controller="Home" asp-action="ChiTietTour" asp-route-matour="@Model.MaKs" class="btn btn-orange btn-round">Liên Hệ Trực Tiếp </a>
+				<a href="@Url.Content("tel:"+@Model.Sdt)" class="btn btn-orange btn-round">Liên Hệ Trực Tiếp </a>
 						</div>
 					</div>
 				</div>

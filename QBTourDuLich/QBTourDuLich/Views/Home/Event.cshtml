@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Event";
+    Layout = "~/Views/Shared/_LayoutEvent.cshtml";
+}
+@model X.PagedList.IPagedList<Event>
+@using X.PagedList.Mvc.Core
+<section class="section section-archive">
+	<div class="container">
+		<div class="row">
+			<div class="content">
+				@foreach(var item in Model)
+				{
+					@await Html.PartialAsync("_PartialEvent", item)
+                }
+				<ul class="pagination">
+                    @Html.PagedListPager(Model, page=>Url.Action("Event", new{page=page}))
+                </ul>
+            </div>
+			
+			<div class="aside">
+				<div class="row">
+					<div class="aside-content">
+						<form method="POST">
+							<div class="content-input">
+								<input type="text" name="cari" class="form-control" placeholder="Search ...">
+							</div>
+							<div class="content-btn">
+								<button type="submit" class="btn-search"><i class="ion-search"></i></button>
+							</div>
+						</form>
+					</div>
+					<div class="aside-content">
+						<div class="content-title">
+							<b>Loại</b>
+						</div>
+						<div class="content-body">
+							<ul style="padding: 0;list-style: none;">
+                                <li><a asp-controller="home" asp-action="TinTuc">Tin Tức</a></li>
+								<li><a asp-controller="home" asp-action="event">Văn Hóa</a></li>
+								<li><a asp-controller="home" asp-action="event">Sự Kiện</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="aside-content">
+						<div class="content-title">
+							<b>Giới Thiệu</b>
+						</div>
+						<div class="content-body">
+							<ul style="padding: 0;list-style: none;">
+								@foreach(var item in Model)
+								{
+									<li><a asp-controller="home" asp-action="chitietEvent" asp-route-mask="@item.MaSk">@item.MoTa</a></li>
+								}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

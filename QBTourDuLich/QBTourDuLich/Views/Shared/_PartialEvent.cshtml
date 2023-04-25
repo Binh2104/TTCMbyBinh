@@ -1,0 +1,22 @@
+﻿@model Event
+<div class="col">
+	<div class="content-img">
+		<img src="@Url.Content("../img/anhEvent/"+Model.TenFileAnh)">
+		<span class="label-img"> Event</span>
+	</div>
+	<div class="content-desc">
+		<div class="content-desc-title">
+			<a asp-controller="home" asp-action="chitietEvent" asp-route-mask="@Model.MaSk"><h3>@Model.MoTa</h3></a>
+		</div>
+		<div class="content-desc-text">
+			<ul class="breadcrumb-post">
+				<li><i class="ion-calendar"></i> &nbsp; / &nbsp;</li>
+				<li><i class="ion-person"></i>@Model.MaNv</li>
+			</ul>
+			<p>
+				@Model.MoTa
+			</p>
+			<a asp-controller="home" asp-action="chitietEvent" asp-route-mask="@Model.MaSk" class="btn btn-md btn-orange" style="margin-top: 10px;">Read More</a>
+		</div>
+	</div>
+</div>
