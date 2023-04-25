@@ -1,33 +1,34 @@
 ﻿
 @{
-    ViewData["Title"] = "danhsachtintuc";
+    ViewData["Title"] = "sukien";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 @section Scripts{
-    <script src="~/admin/layoutdmin/assets/js/tintuc.js"></script>
+    <script src="~/admin/layoutdmin/assets/js/sukien.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
-    
+
 }
-<h1>danhsachtintuc</h1>
+<h1>danhsachsukien</h1>
 
 <div class="content-wrapper ">
     <div class="page-header">
-        <h3 class="page-title"> Quản lý Tin Tức </h3>
+        <h3 class="page-title"> Quản lý sự kiện </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Tin Tức</li>
+                <li class="breadcrumb-item active" aria-current="page">Sự kiện</li>
             </ol>
         </nav>
     </div>
     <div class="col-lg-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Danh Sách Tin Tức</h4>
-                <table class="table table_tintuc table-bordered">
+                <h4 class="card-title">Danh Sách Sự Kiện</h4>
+                <table class="table table_sukien table-bordered">
                     <thead>
                         <tr class="table-info">
-                            <th>Mã Tin Tức</th>
+                            <th>Mã Sự Kiện</th>
                             <th>Mã Nhân Viên Đăng</th>
                             <th>Ảnh</th>
                             <th>Mô Tả</th>
@@ -36,28 +37,28 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody id="tbody-tintuc">
+                    <tbody id="tbody-sukien">
                     </tbody>
                 </table>
                 <br />
                 <div class="text-center">Page <span id="page-number">1</span></div>
-                <div id="pagination_tintuc"></div>
+                <div id="pagination_sukien"></div>
             </div>
         </div>
     </div>
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Tin Tức</h4>
+                <h4 class="card-title">Sự Kiện</h4>
                 <p class="card-description" id="card-action"></p>
-                <form class="forms-sample" id="form-tintuc">
+                <form class="forms-sample" id="form-sukien">
                     <div class="form-group">
-                        <label for="MaTinTuc">Mã Tin Tức</label>
-                        <input type="text" class="form-control" id="MaTinTuc" placeholder="Mã Tin Tức">
+                        <label for="MaSuKien">Mã sự kiện</label>
+                        <input type="text" class="form-control" id="MaSuKien" placeholder="Mã sự kiện">
                     </div>
                     <div class="form-group">
                         <label for="MaNV">Mã nhân viên</label>
-                      @*  <input type="text" class="form-control" id="MaNV" placeholder="Mã nhân viên">*@
+                        @*  <input type="text" class="form-control" id="MaNV" placeholder="Mã nhân viên">*@
 
                         <select class="form-control form-control-lg" id="MaNV">
                             @foreach (var item in ViewBag.U)
@@ -78,10 +79,10 @@
                         <label for="noidung">Nội dung</label>
                         <textarea rows="35" class="form-control" id="noidung" placeholder="Nội Dung"></textarea>
                     </div>
-                    <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertTT()">
+                    <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertSK()">
                         <i class="mdi mdi-upload btn-icon-prepend"></i>Thêm
                     </button>
-                    <button type="button" class="btn btn-gradient-dark btn-icon-text" onclick="UpdateTT()">
+                    <button type="button" class="btn btn-gradient-dark btn-icon-text" onclick="UpdateSK()">
                         Sửa <i class="mdi mdi-file-check btn-icon-append"></i>
                     </button>
                     <button type="button" class="btn btn-gradient-warning btn-icon-text" onclick="resetInput()">
@@ -94,7 +95,7 @@
 </div>
 
 <style>
-    table.table_tintuc {
+    table.table_sukien {
         table-layout: fixed;
         width: 100%;
     }
@@ -107,3 +108,4 @@
     }
 
 </style>
+

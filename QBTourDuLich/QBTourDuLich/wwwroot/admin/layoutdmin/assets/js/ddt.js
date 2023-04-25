@@ -4,7 +4,7 @@
 
 function getAllDDT() {
     $.ajax({
-        url: `https://localhost:7269/api/apiDDT`,
+        url: `https://localhost:7079/api/apiDDT`,
         method: 'GET',
         contentType: 'json',
         dataType: 'json',
@@ -16,7 +16,7 @@ function getAllDDT() {
             const pageNumber = 1;
             const pageSize = 5;
             $.ajax({
-                url: `https://localhost:7269/api/apiDDT/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
+                url: `https://localhost:7079/api/apiDDT/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
                 method: 'GET',
                 contentType: 'json',
                 dataType: 'json',
@@ -49,7 +49,7 @@ function setPage(pageNumber) {
     const pageSize = 5;
     document.getElementById('page-number').innerHTML = pageNumber;
     $.ajax({
-        url: `https://localhost:7269/api/apiDDT/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
+        url: `https://localhost:7079/api/apiDDT/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
         method: 'GET',
         contentType: 'json',
         dataType: 'json',
@@ -75,7 +75,7 @@ function Insert() {
     formData.append("maTour", matour);
     formData.append("viTriAnh", vta);
 
-    var url = 'https://localhost:7269/api/APIDDT/themDDT';
+    var url = 'https://localhost:7079/api/APIDDT/themDDT';
     $.ajax({
         url: url,
         method: 'POST',
@@ -104,7 +104,7 @@ function Insert() {
     formData.append("maTour", matour);
     formData.append("viTriAnh", vta);
 
-    var url = 'https://localhost:7269/api/APIDDT/capnhatDDT';
+    var url = 'https://localhost:7079/api/APIDDT/capnhatDDT';
     $.ajax({
         url: url,
         method: 'PUT',
@@ -123,7 +123,7 @@ function Insert() {
 }*/
 
 /*function updateDDTFill(id1, id2) {
-    var url = 'https://localhost:7269/api/ApiDDT/getById?id1=' + id1+'&id2='+id2;
+    var url = 'https://localhost:7079/api/ApiDDT/getById?id1=' + id1+'&id2='+id2;
     $.ajax({
         url: url,
         method: 'GET',
@@ -140,7 +140,7 @@ function Insert() {
     });
 }*/
 function deleteDDT(id1, id2) {
-    var url = 'https://localhost:7269/api/ApiDDT/xoa?matour='+id1+'&madd='+id2;
+    var url = 'https://localhost:7079/api/ApiDDT/xoa?matour='+id1+'&madd='+id2;
     $.ajax({
         url: url,
         method: 'DELETE',

@@ -1,9 +1,8 @@
-﻿using QBTourDuLich.Models;
-namespace QBTourDuLich.InputModelsApi
+﻿namespace QBTourDuLich.InputModelsApi
 {
-    public class TinTucUpdateInputMode
+    public class EventUpdateInputMode
     {
-        public string MaTin { get; set; } = null!;
+        public string MaSK { get; set; } = null!;
         public string MaNv { get; set; } = null!;
 
         public IFormFile? Anh { get; set; } = null!;

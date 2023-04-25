@@ -1,10 +1,10 @@
 ﻿$(document).ready(function () {
-    getAllTintuc();
+    getAllSukien();
 });
 
-function getAllTintuc() {
+function getAllSukien() {
     $.ajax({
-        url: `https://localhost:7079/api/ApiTinTuc`,
+        url: `https://localhost:7079/api/ApiEvent`,
         method: 'GET',
         contentType: 'json',
         dataType: 'json',
@@ -16,7 +16,7 @@ function getAllTintuc() {
             const pageNumber = 1;
             const pageSize = 5;
             $.ajax({
-                url: `https://localhost:7079/api/ApiTinTuc/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
+                url: `https://localhost:7079/api/ApiEvent/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
                 method: 'GET',
                 contentType: 'json',
                 dataType: 'json',
@@ -34,7 +34,7 @@ function getAllTintuc() {
         },
     })
 }
-$("#form-tintuc").submit(function (e) {
+$("#form-sukien").submit(function (e) {
     e.preventDefault();
 })
 function renderPagination(totalPages, currentPage) {
@@ -42,14 +42,14 @@ function renderPagination(totalPages, currentPage) {
     for (let i = 1; i <= totalPages; i++) {
         pagination += `<button class="btn ${i === currentPage ? 'btn-primary' : 'btn-outline-primary'}" onclick="setPage(${i})">${i}</button> `;
     }
-    document.getElementById('pagination_tintuc').innerHTML = pagination;
+    document.getElementById('pagination_sukien').innerHTML = pagination;
 }
 
 function setPage(pageNumber) {
     const pageSize = 5;
     document.getElementById('page-number').innerHTML = pageNumber;
     $.ajax({
-        url: `https://localhost:7079/api/APITinTuc/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
+        url: `https://localhost:7079/api/ApiEvent/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
         method: 'GET',
         contentType: 'json',
         dataType: 'json',
@@ -66,29 +66,29 @@ function setPage(pageNumber) {
 }
 
 function resetInput() {
-    $("#MaTinTuc").val("").change()
+    $("#MaSuKien").val("").change()
     $("#MaNV").val("").change()
     $("#avatar").val("").change()
     $("#Mota").val("").change()
     $("#noidung").val("").change()
-   
+
 }
-function InsertTT() {
-    var maTT = $("#MaTinTuc").val();
+function InsertSK() {
+    var maTT = $("#MaSuKien").val();
     var maNV = $("#MaNV").val();
     var MoTa = $("#Mota").val();
     var NoiDung = $("#noidung").val();
 
     var formData = new FormData();
 
-    formData.append("maTin", maTT);
+    formData.append("maSk", maTT);
     formData.append("maNv", maNV);
     formData.append("tenFileAnh", $("#avatar")[0].files[0]);
     formData.append("moTa", MoTa);
     formData.append("noiDung", NoiDung);
-    
 
-    var url = 'https://localhost:7079/api/APITinTuc/themTT';
+
+    var url = 'https://localhost:7079/api/ApiEvent/themSK';
     $.ajax({
         url: url,
         method: 'POST',
@@ -97,32 +97,32 @@ function InsertTT() {
         data: formData,
         error: function (error) {
             alert("Có lỗi xảy ra");
-            getAllTintuc();
+            getAllSukien();
         },
         success: function (response) {
             alert("Thêm mới thành công");
             resetInput();
-            getAllTintuc(); //Gọi đến hàm lấy dữ liệu lên bảng
+            getAllSukien(); //Gọi đến hàm lấy dữ liệu lên bảng
         }
     });
 }
 
-function UpdateTT() {
-    var maTT = $("#MaTinTuc").val();
+function UpdateSK() {
+    var maTT = $("#MaSuKien").val();
     var maNV = $("#MaNV").val();
 
     var MoTa = $("#Mota").val();
     var NoiDung = $("#noidung").val();
     var formData = new FormData();
 
-    formData.append("maTin", maTT);
+    formData.append("maSk", maTT);
     formData.append("maNv", maNV);
 
     formData.append("tenFileAnh", $("#avatar")[0].files[0]);
     formData.append("moTa", MoTa);
     formData.append("noiDung", NoiDung);
 
-    var url = 'https://localhost:7079/api/APITinTuc/capnhatTT';
+    var url = 'https://localhost:7079/api/ApiEvent/capnhatSK';
     $.ajax({
         url: url,
         method: 'PUT',
@@ -131,18 +131,18 @@ function UpdateTT() {
         data: formData,
         error: function (error) {
             alert("Có lỗi xảy ra");
-            getAllTintuc();
+            getAllSukien();
         },
         success: function (response) {
             alert("Cập nhật thành công");
             resetInput();
-            getAllTintuc(); //Gọi đến hàm lấy dữ liệu lên bảng
+            getAllSukien(); //Gọi đến hàm lấy dữ liệu lên bảng
         }
     });
 }
 
-function updateTTFill(id) {
-    var url = 'https://localhost:7079/api/APITinTuc/getById?id=' + id;
+function updateSKFill(id) {
+    var url = 'https://localhost:7079/api/ApiEvent/getById?id=' + id;
     $.ajax({
         url: url,
         method: 'GET',
@@ -152,7 +152,7 @@ function updateTTFill(id) {
             alert("Cập nhật không thành công");
         },
         success: function (response) {
-            $("#MaTinTuc").val(response.maTin.trim())
+            $("#MaSuKien").val(response.maSk.trim())
             $("#MaNV").val(response.maNv.trim())
             $("#avatar").val(response.tenFileAnh.trim()).change()
             $("#Mota").val(response.moTa.trim())
@@ -162,8 +162,8 @@ function updateTTFill(id) {
     });
 }
 
-function deleteTT(id) {
-    var url = 'https://localhost:7079/api/ApiTinTuc?input=' + id;
+function deleteSK(id) {
+    var url = 'https://localhost:7079/api/ApiEvent?input=' + id;
     $.ajax({
         url: url,
         method: 'DELETE',
@@ -171,11 +171,11 @@ function deleteTT(id) {
         dataType: 'json',
         error: function (response) {
             /* alert("Xóa không thành công");*/
-            getAllTintuc();
+            getAllSukien();
         },
         success: function (response) {
             alert("Xóa thành công");
-            getAllTintuc(); //Gọi đến hàm lấy dữ liệu lên bảng
+            getAllSukien(); //Gọi đến hàm lấy dữ liệu lên bảng
         }
     });
 }
@@ -192,17 +192,17 @@ function renderTable(response) {
             cls = "table-success";
         }
         table = table + '<tr class="' + cls + '">';
-        table = table + '<td>' + response.items[i].maTin.trim() + '</td>';
+        table = table + '<td>' + response.items[i].maSk.trim() + '</td>';
         table = table + '<td>' + response.items[i].maNv.trim() + '</td>';
         table = table + `<td class="py-1">
-                    <img src="../../img/AnhTinTuc/${!!response.items[i].tenFileAnh ? response.items[i].tenFileAnh.trim() : 'default-avatar.png'}" alt="image" />
-                </td>`;    
+                    <img src="../../img/events/${!!response.items[i].tenFileAnh ? response.items[i].tenFileAnh.trim() : 'default-avatar.png'}" alt="image" />
+                </td>`;
         table = table + '<td>' + response.items[i].moTa.trim() + '</td>';
-         table = table + '<td>' + response.items[i].noiDung.trim() + '</td>';
+        table = table + '<td>' + response.items[i].noiDung.trim() + '</td>';
 
-        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-info btn-rounded btn-icon" onclick="updateTTFill(\'' + response.items[i].maTin.trim() + '\')">Edit</i></button> ' + '</td>';
-        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick=" deleteTT(\'' + response.items[i].maTin.trim() + '\')">Delete</button> ' + '</td>';
-       /* table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick="ChiTietTT(\'' + response.items[i].maTin.trim() + '\')">Chi Tiết</button> ' + '</td>';*/
+        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-info btn-rounded btn-icon" onclick="updateTTFill(\'' + response.items[i].maSk.trim() + '\')">Edit</i></button> ' + '</td>';
+        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick=" deleteTT(\'' + response.items[i].maSk.trim() + '\')">Delete</button> ' + '</td>';
+        /* table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick="ChiTietTT(\'' + response.items[i].maSk.trim() + '\')">Chi Tiết</button> ' + '</td>';*/
     }
-    document.getElementById('tbody-tintuc').innerHTML = table;
+    document.getElementById('tbody-sukien').innerHTML = table;
 }

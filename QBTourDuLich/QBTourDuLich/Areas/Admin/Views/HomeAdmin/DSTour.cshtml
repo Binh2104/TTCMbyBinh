@@ -51,7 +51,12 @@
                 </div>
                     <div class="form-group">
                         <label for="MaNV">Mã nhân viên</label>
-                        <input type="text" class="form-control" id="MaNV" placeholder="Mã nhân viên">
+                        <select class="form-control form-control-lg" id="MaNV">
+                            @foreach (var item in ViewBag.U)
+                            {
+                                <option value="@item">@item.ToString()</option>
+                            }
+                        </select>
                     </div>
                 <div class="form-group">
                     <label for="TenTour">Tên Tour</label>
@@ -92,3 +97,17 @@
 </div>
 <script src="~/admin/layoutdmin/assets/js/tour.js"></script>
 
+<style>
+    table.table_tour {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    td, th {
+        max-width: 200px; /* adjust the width to your preference */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+</style>

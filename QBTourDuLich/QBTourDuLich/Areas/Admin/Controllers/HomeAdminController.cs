@@ -10,6 +10,7 @@ namespace QBTourDuLich.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("Admin")]
+    [Route("HomeAdmin")]
     [Route("Admin/HomeAdmin")]
     public class HomeAdminController : Controller
     {
@@ -40,6 +41,8 @@ namespace QBTourDuLich.Areas.Admin.Controllers
         public IActionResult DSTour()
         {
             ViewBag.Username = HttpContext.Session.GetString("UserName");
+            var lstU = (from a in db.NhanViens select a.MaNv).ToList();
+            ViewBag.U = lstU;
             var lstTour = (from a in db.Tours select a).ToList();
             return View(lstTour);
         }
@@ -64,27 +67,7 @@ namespace QBTourDuLich.Areas.Admin.Controllers
             ViewBag.Tour = lstTour;
             return View();
         }
-        [Route("ThemKSchoTour")]
-        /*[Authentication]*/
-        public IActionResult ThemKSchoTour()
-        {
-            ViewBag.Username = HttpContext.Session.GetString("UserName");
-            var lstTour = (from a in db.Tours
-                           select new
-                           {
-                               a.MaTour,
-                               a.TenTour
-                           }).ToList();
-            var lstks = (from a in db.KhachSans
-                         select new
-                         {
-                             a.MaKs,
-                             a.TenKs
-                         }).ToList();
-            ViewBag.DD = lstks;
-            ViewBag.Tour = lstTour;
-            return View();
-        }
+        
         //Nhan Vien
         [Route("danhsachnhansu")]
 		[Authentication]
@@ -114,9 +97,7 @@ namespace QBTourDuLich.Areas.Admin.Controllers
         {
             ViewBag.Username = HttpContext.Session.GetString("UserName");
             var lstTT = (from a in db.News select a).ToList();
-            var lstU = (from a in db.NhanViens
-                       /* where a.Loai == 1 && !db.NhanViens.Select(nv => nv.UserName).Contains(a.UserName)*/
-                        select a.MaNv).ToList();
+            var lstU = (from a in db.NhanViens  select a.MaNv).ToList();
             ViewBag.U = lstU;
             return View(lstTT);
         }
@@ -127,7 +108,19 @@ namespace QBTourDuLich.Areas.Admin.Controllers
         {
             ViewBag.Username = HttpContext.Session.GetString("UserName");
             var lstKS = (from a in db.KhachSans select a).ToList();
+            var lstU = (from a in db.NhanViens select a.MaNv).ToList();
+            ViewBag.U = lstU;
             return View(lstKS);
+        }
+        [Route("danhsachsukien")]
+        [Authentication]
+        public IActionResult sukien()
+        {
+            //ViewBag.Username = HttpContext.Session.GetString("UserName");
+            var lstTT = (from a in db.Events select a).ToList();
+            var lstU = (from a in db.NhanViens select a.MaNv).ToList();
+            ViewBag.U = lstU;
+            return View(lstTT);
         }
     }
 }

@@ -1,24 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using QBTourDuLich.InputModelsApi;
 using QBTourDuLich.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace QBTourDuLich.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
-    public class APITinTuc : Controller
+    public class ApiEvent : ControllerBase
     {
-
         QbdulichContext db = new QbdulichContext();
         [HttpGet]
-        public IActionResult getAllTinTuc()
+        public IActionResult getAllSukien()
         {
-            var x = (from a in db.News
+            var x = (from a in db.Events
                      select new
                      {
-                         a.MaTin,
+                         a.MaSk,
                          a.MaNv,
                          a.TenFileAnh,
                          a.MoTa,
@@ -40,13 +39,13 @@ namespace QBTourDuLich.Controllers
 
         [HttpGet]
         [Route("getPagination")]
-        public IActionResult GetAllTintucPagination([Range(1, 100)] int pageSize,
+        public IActionResult getAllSukienPagination([Range(1, 100)] int pageSize,
            [Range(1, int.MaxValue)] int pageNumber)
         {
-            var listTT = (from a in db.News
+            var listTT = (from a in db.Events
                           select new
                           {
-                              a.MaTin,
+                              a.MaSk,
                               a.MaNv,
                               a.TenFileAnh,
                               a.MoTa,
@@ -63,23 +62,23 @@ namespace QBTourDuLich.Controllers
         }
         [Route("getById")]
         [HttpGet]
-        public IActionResult GetTintucId(string id)
+        public IActionResult GetSukienId(string id)
         {
-            var TT = (from a in db.News
-                      where a.MaTin == id
+            var TT = (from a in db.Events
+                      where a.MaSk == id
                       select new
                       {
-                          a.MaTin,
+                          a.MaSk,
                           a.MaNv,
                           a.TenFileAnh,
                           a.MoTa,
                           a.NoiDung
-                      }) .FirstOrDefault();
+                      }).FirstOrDefault();
             return Ok(TT);
         }
         [HttpPost]
-        [Route("themTT")]
-        public async Task<IActionResult> AddTT([FromForm] TinTucCreateInputMode input)
+        [Route("themSK")]
+        public async Task<IActionResult> AddSK([FromForm] EventCreateInputMode input)
         {
             if (!ModelState.IsValid)
             {
@@ -87,15 +86,15 @@ namespace QBTourDuLich.Controllers
             }
             // Upload the image to the server
             string fileName = await UploadImage(input.Anh);
-            var DDCheck = db.News.Select(x => x.MaTin).ToList();
-            if (DDCheck.Any(x => x.Contains(input.MaTin)))
+            var DDCheck = db.Events.Select(x => x.MaSk).ToList();
+            if (DDCheck.Any(x => x.Contains(input.MaSK)))
             {
-                return BadRequest("Đã Tồn Tại tin tuc!");
+                return BadRequest("Đã Tồn Tại su kien!");
             }
 
-            var newTT = new News
+            var newTT = new Event
             {
-                MaTin = input.MaTin,
+                MaSk = input.MaSK,
                 MaNv = input.MaNv,
                 TenFileAnh = fileName,
                 MoTa = input.MoTa,
@@ -103,16 +102,16 @@ namespace QBTourDuLich.Controllers
 
             };
 
-            db.News.Add(newTT);
+            db.Events.Add(newTT);
             db.SaveChanges();
             return Ok(input);
         }
 
         [HttpPut]
-        [Route("capnhatTT")]
-        public async Task<IActionResult> UpdateTTAsync([FromForm] TinTucCreateInputMode input)
+        [Route("capnhatSK")]
+        public async Task<IActionResult> UpdateSKAsync([FromForm] EventCreateInputMode input)
         {
-            ViewBag.Username = HttpContext.Session.GetString("UserName");
+            //ViewBag.Username = HttpContext.Session.GetString("UserName");
             var username = HttpContext.Session.GetString("UserName");
             var userid = (from a in db.TaiKhoans
                           where a.UserName == username
@@ -123,28 +122,28 @@ namespace QBTourDuLich.Controllers
             }
 
             // Find the DiemThamQuan in the database by id
-            var TT = await db.News.FindAsync(input.MaTin);
+            var TT = await db.Events.FindAsync(input.MaSK);
             if (TT == null)
             {
                 return NotFound();
             }
 
-            // Update the TinTuc object with the form data
-            TT.MaTin = input.MaTin;
+            // Update the Event object with the form data
+            TT.MaSk = input.MaSK;
             TT.MaNv = input.MaNv;
             TT.MoTa = input.MoTa;
             TT.NoiDung = input.NoiDung;
 
 
-            // Upload the image to the server and update the TinTuc object with the new image name
+            // Upload the image to the server and update the Event object with the new image name
             if (input.Anh != null)
             {
                 string fileName = await UploadImage(input.Anh);
                 TT.TenFileAnh = fileName;
             }
 
-            // Update the TinTuc in the database
-            db.News.Update(TT);
+            // Update the Event in the database
+            db.Events.Update(TT);
             await db.SaveChangesAsync();
 
             return Ok();
@@ -164,7 +163,7 @@ namespace QBTourDuLich.Controllers
             // Get the file name and extension
             string fileName = file.FileName;
             // Set the file path
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "AnhTinTuc", fileName);
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "AnhEvent", fileName);
             // Save the file to disk
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
@@ -174,18 +173,26 @@ namespace QBTourDuLich.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteTT(string input)
+        public IActionResult DeleteSK(string input)
         {
-            var DDCheck = (from a in db.News
-                           where a.MaTin == input
+            var DDCheck = (from a in db.Events
+                           where a.MaSk == input
                            select a).FirstOrDefault();
+            var check = (from a in db.Events
+                         join b in db.NhanViens on a.MaNv equals b.MaNv
+                         where b.MaNv == input
+                         select a).FirstOrDefault();
             if (DDCheck == null)
             {
-                return BadRequest("Khong tim thay tin tuc!");
+                return BadRequest("Khong tim thay su kien!");
             }
-            var list = db.News.Where(x => x.MaTin == input);
-            if (list != null) db.RemoveRange(list);
-            db.News.Remove(DDCheck);
+
+            else if (check != null)
+            {
+                return BadRequest("Khong thể xóa");
+            }
+
+            db.Events.Remove(DDCheck);
             db.SaveChanges();
 
             return Ok(input);

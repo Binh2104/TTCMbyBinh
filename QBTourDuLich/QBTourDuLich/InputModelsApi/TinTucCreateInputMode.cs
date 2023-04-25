@@ -4,6 +4,7 @@ namespace QBTourDuLich.InputModelsApi
     public class TinTucCreateInputMode
     {
         public string MaTin { get; set; } = null!;
+        public string MaNv { get; set; } = null!;
 
         public IFormFile? Anh { get; set; } = null!;
 
@@ -11,6 +12,6 @@ namespace QBTourDuLich.InputModelsApi
 
         public string NoiDung { get; set; } = null!;
 
-        public string MaNv { get; set; } = null!;
+        
     }
 }
