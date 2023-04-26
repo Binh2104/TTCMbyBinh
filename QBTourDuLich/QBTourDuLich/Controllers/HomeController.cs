@@ -50,8 +50,18 @@ namespace QBTourDuLich.Controllers
 			PagedList<DiemThamQuan> lst = new PagedList<DiemThamQuan>(lsthinhanh, pageNumber, pageSize);
 			return View(lst);
 		}
-		public IActionResult TinTuc(int page = 1)
+		public IActionResult TinTuc(int page = 1, string SearchString="")
 		{
+			if (SearchString != "")
+			{
+                int pageSize = 5;
+                int pageNumber = page;
+                var listSP = db.News.Where(x => x.MoTa.ToUpper().Contains(SearchString.ToUpper())).ToList();
+                PagedList<News> lst = new PagedList<News>(listSP, pageNumber, pageSize);
+                return View(lst);
+			}
+			else
+			{
 			int pageSize = 5;
 			int pageNumber = page;
 			var listSP = db.News.AsNoTracking().OrderBy(x => x.MaTin);
@@ -60,7 +70,10 @@ namespace QBTourDuLich.Controllers
 							 join b in db.NhanViens on a.MaNv equals b.MaNv
 							 select b.TenNv).ToList();
 			ViewBag.nguoidang = nguoidang;
-			return View(lst);
+				return View(lst);
+			}
+			
+			
 		}
 		public IActionResult ChiTietTinTuc(String maTin)
 		{
@@ -83,9 +96,18 @@ namespace QBTourDuLich.Controllers
             PagedList<KhachSan> lst = new PagedList<KhachSan>(lstsanpham, pageNumber, pageSize);
             return View(lst);
         }
-		public IActionResult Event(int page = 1)
+		public IActionResult Event(int page = 1, string SearchString = "")
 		{
-			int pageSize = 2;
+			if (SearchString != "")
+			{
+				int pageSize = 2;
+				int pageNumber = page;
+				var listSP = db.Events.Where(x => x.MoTa.ToUpper().Contains(SearchString.ToUpper())).ToList();
+				PagedList<Event> lst = new PagedList<Event>(listSP, pageNumber, pageSize);
+				return View(lst);
+			}
+			else {
+				int pageSize = 2;
 			int pageNumber = page;
 			var listSP = db.Events.AsNoTracking().OrderBy(x => x.MaSk);
 			PagedList<Event> lst = new PagedList<Event>(listSP, pageNumber, pageSize);
@@ -93,7 +115,7 @@ namespace QBTourDuLich.Controllers
 							 join b in db.NhanViens on a.MaNv equals b.MaNv		
 							 select b.TenNv).ToList();
 			ViewBag.nguoidang = nguoidang;
-			return View(lst);
+			return View(lst);}
 		}
 		public IActionResult ChiTietEvent(String mask)
 		{

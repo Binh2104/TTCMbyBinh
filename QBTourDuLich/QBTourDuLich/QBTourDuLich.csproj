@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\img\anhEvent\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 

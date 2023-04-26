@@ -194,7 +194,7 @@ function renderTable(response) {
         }
         table = table + '<tr class="'+cls+'">';
         table = table + '<td> ' + response.items[i].maTour.trim() + '</td>';
-        table = table + '<td> ' + response.items[i].maNv.trim() + '</td>';
+        table = table + '<td> ' + response.items[i].tenNv.trim() + '</td>';
         table = table + '<td>  <a style="font-weight:bold; text-align:center; color:black; text-decoration:none" href="/home/chitiettour?matour=' + response.items[i].maTour.trim()+ '">' + response.items[i].tenTour.trim() + '</a></td>';         
         table = table + `<td class="py-1">
                     <img src="../../img/anhdaidien/${!!response.items[i].anh ? response.items[i].anh.trim() : 'default-avatar.png'}" alt="image" />

@@ -193,7 +193,7 @@ function renderTable(response) {
         }
         table = table + '<tr class="' + cls + '">';
         table = table + '<td>' + response.items[i].maTin.trim() + '</td>';
-        table = table + '<td>' + response.items[i].maNv.trim() + '</td>';
+        table = table + '<td>' + response.items[i].tenNv.trim() + '</td>';
         table = table + `<td class="py-1">
                     <img src="../../img/AnhTinTuc/${!!response.items[i].tenFileAnh ? response.items[i].tenFileAnh.trim() : 'default-avatar.png'}" alt="image" />
                 </td>`;    

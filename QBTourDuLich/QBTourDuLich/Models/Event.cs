@@ -12,7 +12,6 @@ public partial class Event
     public string NoiDung { get; set; } = null!;
 
     public string TenFileAnh { get; set; } = null!;
-
     public string MaNv { get; set; } = null!;
 
     public virtual NhanVien MaNvNavigation { get; set; } = null!;

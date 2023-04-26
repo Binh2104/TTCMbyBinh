@@ -16,8 +16,10 @@ namespace QBTourDuLich.Controllers
         public IActionResult getAllTinTuc()
         {
             var x = (from a in db.News
-                     select new
+					 join b in db.NhanViens on a.MaNv equals b.MaNv
+					 select new
                      {
+                         b.TenNv,
                          a.MaTin,
                          a.MaNv,
                          a.TenFileAnh,
@@ -43,9 +45,10 @@ namespace QBTourDuLich.Controllers
         public IActionResult GetAllTintucPagination([Range(1, 100)] int pageSize,
            [Range(1, int.MaxValue)] int pageNumber)
         {
-            var listTT = (from a in db.News
+            var listTT = (from a in db.News join b in db.NhanViens on a.MaNv equals b.MaNv
                           select new
                           {
+                              b.TenNv,
                               a.MaTin,
                               a.MaNv,
                               a.TenFileAnh,
@@ -66,15 +69,17 @@ namespace QBTourDuLich.Controllers
         public IActionResult GetTintucId(string id)
         {
             var TT = (from a in db.News
-                      where a.MaTin == id
-                      select new
-                      {
-                          a.MaTin,
-                          a.MaNv,
-                          a.TenFileAnh,
-                          a.MoTa,
-                          a.NoiDung
-                      }) .FirstOrDefault();
+					  join b in db.NhanViens on a.MaNv equals b.MaNv
+                      where a.MaTin==id
+					  select new
+					  {
+						  b.TenNv,
+						  a.MaTin,
+						  a.MaNv,
+						  a.TenFileAnh,
+						  a.MoTa,
+						  a.NoiDung
+					  }) .FirstOrDefault();
             return Ok(TT);
         }
         [HttpPost]

@@ -41,7 +41,7 @@ namespace QBTourDuLich.Areas.Admin.Controllers
         public IActionResult DSTour()
         {
             ViewBag.Username = HttpContext.Session.GetString("UserName");
-            var lstU = (from a in db.NhanViens select a.MaNv).ToList();
+            var lstU = (from a in db.NhanViens select a).ToList();
             ViewBag.U = lstU;
             var lstTour = (from a in db.Tours select a).ToList();
             return View(lstTour);
@@ -97,7 +97,7 @@ namespace QBTourDuLich.Areas.Admin.Controllers
         {
             ViewBag.Username = HttpContext.Session.GetString("UserName");
             var lstTT = (from a in db.News select a).ToList();
-            var lstU = (from a in db.NhanViens  select a.MaNv).ToList();
+            var lstU = (from a in db.NhanViens  select a).ToList();
             ViewBag.U = lstU;
             return View(lstTT);
         }
@@ -118,7 +118,7 @@ namespace QBTourDuLich.Areas.Admin.Controllers
         {
             //ViewBag.Username = HttpContext.Session.GetString("UserName");
             var lstTT = (from a in db.Events select a).ToList();
-            var lstU = (from a in db.NhanViens select a.MaNv).ToList();
+            var lstU = (from a in db.NhanViens select a).ToList();
             ViewBag.U = lstU;
             return View(lstTT);
         }

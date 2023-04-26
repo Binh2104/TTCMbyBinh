@@ -197,7 +197,6 @@ function renderTable(response) {
         }
         table = table + '<tr class="' + cls + '">';
         table = table + '<td>' + response.items[i].maKs.trim() + '</td>';
-        table = table + '<td>' + response.items[i].maNv.trim() + '</td>';
         table = table + '<td>' + response.items[i].tenKs.trim() + '</td>';
         table = table + '<td>' + response.items[i].diaChi.trim() + '</td>';
         table = table + '<td>' + response.items[i].sdt.trim() + '</td>';

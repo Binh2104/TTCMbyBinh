@@ -71,7 +71,6 @@ function resetInput() {
     $("#avatar").val("").change()
     $("#Mota").val("").change()
     $("#noidung").val("").change()
-
 }
 function InsertSK() {
     var maTT = $("#MaSuKien").val();
@@ -88,7 +87,7 @@ function InsertSK() {
     formData.append("noiDung", NoiDung);
 
 
-    var url = 'https://localhost:7079/api/ApiEvent/themSK';
+    var url = 'https://localhost:7079/api/ApiEvent/themEvent';
     $.ajax({
         url: url,
         method: 'POST',
@@ -97,7 +96,6 @@ function InsertSK() {
         data: formData,
         error: function (error) {
             alert("Có lỗi xảy ra");
-            getAllSukien();
         },
         success: function (response) {
             alert("Thêm mới thành công");
@@ -110,14 +108,12 @@ function InsertSK() {
 function UpdateSK() {
     var maTT = $("#MaSuKien").val();
     var maNV = $("#MaNV").val();
-
     var MoTa = $("#Mota").val();
     var NoiDung = $("#noidung").val();
-    var formData = new FormData();
 
+    var formData = new FormData();
     formData.append("maSk", maTT);
     formData.append("maNv", maNV);
-
     formData.append("tenFileAnh", $("#avatar")[0].files[0]);
     formData.append("moTa", MoTa);
     formData.append("noiDung", NoiDung);
@@ -157,7 +153,6 @@ function updateSKFill(id) {
             $("#avatar").val(response.tenFileAnh.trim()).change()
             $("#Mota").val(response.moTa.trim())
             $("#noidung").val(response.noiDung.trim())
-            /*$("#avatar").val(response.tenFileAnh.trim()).change()*/
         }
     });
 }
@@ -193,15 +188,15 @@ function renderTable(response) {
         }
         table = table + '<tr class="' + cls + '">';
         table = table + '<td>' + response.items[i].maSk.trim() + '</td>';
-        table = table + '<td>' + response.items[i].maNv.trim() + '</td>';
+        table = table + '<td>' + response.items[i].tenNv.trim() + '</td>';
         table = table + `<td class="py-1">
                     <img src="../../img/events/${!!response.items[i].tenFileAnh ? response.items[i].tenFileAnh.trim() : 'default-avatar.png'}" alt="image" />
                 </td>`;
         table = table + '<td>' + response.items[i].moTa.trim() + '</td>';
         table = table + '<td>' + response.items[i].noiDung.trim() + '</td>';
 
-        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-info btn-rounded btn-icon" onclick="updateTTFill(\'' + response.items[i].maSk.trim() + '\')">Edit</i></button> ' + '</td>';
-        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick=" deleteTT(\'' + response.items[i].maSk.trim() + '\')">Delete</button> ' + '</td>';
+        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-info btn-rounded btn-icon" onclick="updateSKFill(\'' + response.items[i].maSk.trim() + '\')">Edit</i></button> ' + '</td>';
+        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick=" deleteSK(\'' + response.items[i].maSk.trim() + '\')">Delete</button> ' + '</td>';
         /* table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick="ChiTietTT(\'' + response.items[i].maSk.trim() + '\')">Chi Tiết</button> ' + '</td>';*/
     }
     document.getElementById('tbody-sukien').innerHTML = table;

@@ -14,9 +14,10 @@ namespace QBTourDuLich.Controllers
         [HttpGet]
         public IActionResult getAllTour()
         {
-            var query = (from a in db.Tours                         
+            var query = (from a in db.Tours join b in db.NhanViens on a.MaNv equals b.MaNv                       
                          select new
                          {
+                            b.TenNv,
                             a.MaTour,
                              a.MaNv,
                             a.TenTour,
@@ -49,8 +50,10 @@ namespace QBTourDuLich.Controllers
            [Range(1, int.MaxValue)] int pageNumber)
         {
             var listTour = (from a in db.Tours
-                           select new
+							join b in db.NhanViens on a.MaNv equals b.MaNv
+							select new
                            {
+                                b.TenNv,
                                a.MaTour,
                                a.MaNv,
                                a.TenTour,
@@ -74,9 +77,11 @@ namespace QBTourDuLich.Controllers
         public IActionResult GetTourId(string id)
         {
             var Tour = (from a in db.Tours
-                       where a.MaTour== id    
+						join b in db.NhanViens on a.MaNv equals b.MaNv
+						where a.MaTour== id    
                           select new
                           {
+                              b.TenNv,
                               a.MaTour,
                               a.MaNv,
                               a.TenTour,

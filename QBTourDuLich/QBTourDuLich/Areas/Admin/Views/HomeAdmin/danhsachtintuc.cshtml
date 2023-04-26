@@ -8,8 +8,6 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
     
 }
-<h1>danhsachtintuc</h1>
-
 <div class="content-wrapper ">
     <div class="page-header">
         <h3 class="page-title"> Quản lý Tin Tức </h3>
@@ -28,7 +26,7 @@
                     <thead>
                         <tr class="table-info">
                             <th>Mã Tin Tức</th>
-                            <th>Mã Nhân Viên Đăng</th>
+                            <th>Người Đăng Tin</th>
                             <th>Ảnh</th>
                             <th>Mô Tả</th>
                             <th>Nội Dung</th>
@@ -56,13 +54,13 @@
                         <input type="text" class="form-control" id="MaTinTuc" placeholder="Mã Tin Tức">
                     </div>
                     <div class="form-group">
-                        <label for="MaNV">Mã nhân viên</label>
+                        <label for="MaNV">Người đăng</label>
                       @*  <input type="text" class="form-control" id="MaNV" placeholder="Mã nhân viên">*@
 
                         <select class="form-control form-control-lg" id="MaNV">
                             @foreach (var item in ViewBag.U)
                             {
-                                <option value="@item">@item.ToString()</option>
+                                <option value="@item.MaNv">@item.TenNv.ToString()</option>
                             }
                         </select>
                     </div>
@@ -100,7 +98,7 @@
     }
 
     td, th {
-        max-width: 200px; /* adjust the width to your preference */
+        max-width: 250px; /* adjust the width to your preference */
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

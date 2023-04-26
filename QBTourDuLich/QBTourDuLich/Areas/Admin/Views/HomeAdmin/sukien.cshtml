@@ -5,11 +5,11 @@
 }
 
 @section Scripts{
-    <script src="~/admin/layoutdmin/assets/js/sukien.js"></script>
+  @*  <script src="~/admin/layoutdmin/assets/js/sukien.js"></script>*@
     <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
 
 }
-<h1>danhsachsukien</h1>
+
 
 <div class="content-wrapper ">
     <div class="page-header">
@@ -29,7 +29,7 @@
                     <thead>
                         <tr class="table-info">
                             <th>Mã Sự Kiện</th>
-                            <th>Mã Nhân Viên Đăng</th>
+                            <th>Người đăng</th>
                             <th>Ảnh</th>
                             <th>Mô Tả</th>
                             <th>Nội Dung</th>
@@ -57,27 +57,25 @@
                         <input type="text" class="form-control" id="MaSuKien" placeholder="Mã sự kiện">
                     </div>
                     <div class="form-group">
-                        <label for="MaNV">Mã nhân viên</label>
-                        @*  <input type="text" class="form-control" id="MaNV" placeholder="Mã nhân viên">*@
-
+                        <label for="MaNV">Người đăng</label>                    
                         <select class="form-control form-control-lg" id="MaNV">
                             @foreach (var item in ViewBag.U)
                             {
-                                <option value="@item">@item.ToString()</option>
+                                <option value="@item.MaNv">@item.TenNv.ToString()</option>
                             }
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="anhdaidien">Ảnh đại diện:</label>
+                        <label for="avatar">Ảnh đại diện:</label>
                         <input type="file" id="avatar" name="anhdaidien" required>
                     </div>
                     <div class="form-group">
                         <label for="Mota">Mô Tả</label>
-                        <input rows="15" type="text" class="form-control" id="Mota" placeholder="Mô tả">
+                        <input type="text" class="form-control" id="Mota" placeholder="Mô tả">
                     </div>
                     <div class="form-group">
                         <label for="noidung">Nội dung</label>
-                        <textarea rows="35" class="form-control" id="noidung" placeholder="Nội Dung"></textarea>
+                        <input type="text" class="form-control" id="noidung" placeholder="Mô tả">
                     </div>
                     <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertSK()">
                         <i class="mdi mdi-upload btn-icon-prepend"></i>Thêm
@@ -93,7 +91,7 @@
         </div>
     </div>
 </div>
-
+<script src="~/admin/layoutdmin/assets/js/sukien.js"></script>
 <style>
     table.table_sukien {
         table-layout: fixed;

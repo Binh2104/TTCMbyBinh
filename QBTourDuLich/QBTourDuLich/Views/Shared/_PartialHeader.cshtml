@@ -11,7 +11,7 @@
 			<ul>
 				<li><a asp-controller="Home" asp-action="DiemDen">Điểm Đến</a></li>
 				<li><a asp-controller="Home" asp-action="ThuVien">Thư Viện</a></li>
-				<li><a data-slide="slides" data-slide-target="#discover">Khám Phá</a></li>
+				<li><a asp-controller ="Home" asp-action="event">Sự Kiện</a></li>
 				<li><a asp-controller="Home" asp-action="TinTuc">Tin Tức</a></li>
 				@if (Context.Session.GetString("UserName")==null)
 				{
