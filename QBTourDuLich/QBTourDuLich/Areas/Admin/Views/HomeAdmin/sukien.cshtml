@@ -37,12 +37,12 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody id="tbody-sukien">
+                    <tbody id="tbody-event">
                     </tbody>
                 </table>
                 <br />
                 <div class="text-center">Page <span id="page-number">1</span></div>
-                <div id="pagination_sukien"></div>
+                <div id="pagination_event"></div>
             </div>
         </div>
     </div>
@@ -51,36 +51,28 @@
             <div class="card-body">
                 <h4 class="card-title">Sự Kiện</h4>
                 <p class="card-description" id="card-action"></p>
-                <form class="forms-sample" id="form-sukien">
+                <form class="forms-sample" id="form-event" method="post">
                     <div class="form-group">
                         <label for="MaSuKien">Mã sự kiện</label>
                         <input type="text" class="form-control" id="MaSuKien" placeholder="Mã sự kiện">
                     </div>
                     <div class="form-group">
-                        <label for="MaNV">Người đăng</label>                    
-                        <select class="form-control form-control-lg" id="MaNV">
-                            @foreach (var item in ViewBag.U)
-                            {
-                                <option value="@item.MaNv">@item.TenNv.ToString()</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label for="avatar">Ảnh đại diện:</label>
-                        <input type="file" id="avatar" name="anhdaidien" required>
+                        <input type="file" id="avatar" required>
                     </div>
                     <div class="form-group">
-                        <label for="Mota">Mô Tả</label>
-                        <input type="text" class="form-control" id="Mota" placeholder="Mô tả">
+                        <label for="Mota">Mô Tả</label> 
+                        <textarea rows="10" type="text" class="form-control" id="Mota" placeholder="Mô tả"></textarea>               
                     </div>
                     <div class="form-group">
                         <label for="noidung">Nội dung</label>
-                        <input type="text" class="form-control" id="noidung" placeholder="Mô tả">
+                        <textarea rows="15" type="text" class="form-control" id="noidung" placeholder="Nội dung">
+                        </textarea>
                     </div>
-                    <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertSK()">
+                    <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertEvent()">
                         <i class="mdi mdi-upload btn-icon-prepend"></i>Thêm
                     </button>
-                    <button type="button" class="btn btn-gradient-dark btn-icon-text" onclick="UpdateSK()">
+                    <button type="button" class="btn btn-gradient-dark btn-icon-text" onclick="UpdateEvent()">
                         Sửa <i class="mdi mdi-file-check btn-icon-append"></i>
                     </button>
                     <button type="button" class="btn btn-gradient-warning btn-icon-text" onclick="resetInput()">
@@ -97,7 +89,6 @@
         table-layout: fixed;
         width: 100%;
     }
-
     td, th {
         max-width: 200px; /* adjust the width to your preference */
         overflow: hidden;

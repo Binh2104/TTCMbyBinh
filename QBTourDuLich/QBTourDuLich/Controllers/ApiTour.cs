@@ -98,6 +98,12 @@ namespace QBTourDuLich.Controllers
         [Route("themTour")]
         public async Task<IActionResult> AddTour([FromForm] TourCreateInputModel input)
         {
+            var username = HttpContext.Session.GetString("UserName");
+
+            var userid = (from a in db.TaiKhoans
+                          join b in db.NhanViens on a.UserName equals b.UserName
+                          where a.UserName == username
+                          select b.MaNv.ToString()).FirstOrDefault();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -113,7 +119,7 @@ namespace QBTourDuLich.Controllers
             var newTour = new Tour
             {
                 MaTour = input.MaTour,
-                MaNv = input.MaNV,
+                MaNv = userid,
                 TenTour = input.TenTour,
                 XepHangTour= input.XepHangTour,
                 Anh=fileName,
@@ -132,9 +138,11 @@ namespace QBTourDuLich.Controllers
         {
             ViewBag.Username = HttpContext.Session.GetString("UserName");
             var username = HttpContext.Session.GetString("UserName");
+
             var userid = (from a in db.TaiKhoans
+                          join b in db.NhanViens on a.UserName equals b.UserName
                           where a.UserName == username
-                          select a.UserName.ToString()).FirstOrDefault();
+                          select b.MaNv.ToString()).FirstOrDefault();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -149,7 +157,7 @@ namespace QBTourDuLich.Controllers
 
             // Update the TinTuc object with the form data
             Tour.MaTour = input.MaTour;
-            Tour.MaNv = input.MaNV;
+            Tour.MaNv = userid;
             Tour.TenTour= input.TenTour;
             Tour.XepHangTour=input.XepHangTour;
             Tour.MoTa = input.MoTa;

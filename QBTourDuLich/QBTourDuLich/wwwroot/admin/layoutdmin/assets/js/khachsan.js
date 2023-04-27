@@ -66,7 +66,6 @@ function setPage(pageNumber) {
 }
 function resetInput() {
     $("#MaKS").val("").change()
-    $("#MaNV").val("").change()
     $("#TenKS").val("").change()
     $("#DiaChi").val("").change()
     $("#sdt").val("").change()
@@ -75,7 +74,6 @@ function resetInput() {
 }
 function InsertKS() {
     var maDd = $("#MaKS").val();
-    var maNv = $("#MaNV").val();
     var tendd = $("#TenKS").val();
     var mien = $("#DiaChi").val();
     var mota = $("#sdt").val();
@@ -83,7 +81,6 @@ function InsertKS() {
     var formData = new FormData();
 
     formData.append("maKs", maDd);
-    formData.append("maNv", maNv);
     formData.append("tenKs", tendd);
     formData.append("diaChi", mien);
     formData.append("sdt", mota);
@@ -109,7 +106,6 @@ function InsertKS() {
 }
 function UpdateKS() {
     var MaKS = $("#MaKS").val();
-    var MaNv = $("#MaNV").val();
     var TenKS = $("#TenKS").val();
     var DiaChi = $("#DiaChi").val();
     var sdt = $("#sdt").val();
@@ -117,7 +113,6 @@ function UpdateKS() {
     var formData = new FormData();
 
     formData.append("maKs", MaKS);
-    formData.append("maNv", MaNv);
     formData.append("tenKs", TenKS);
     formData.append("diaChi", DiaChi);
     formData.append("sdt", sdt);
@@ -154,7 +149,6 @@ function updateKSFill(id) {
         },
         success: function (response) {
             $("#MaKS").val(response.maKs.trim())
-            $("#MaNV").val(response.maNv.trim())
             $("#TenKS").val(response.tenKs.trim()).change()
             $("#DiaChi").val(response.diaChi.trim()).change()
             $("#sdt").val(response.sdt.trim()).change()

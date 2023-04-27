@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using QBTourDuLich.Models.Authentication;
+using QBTourDuLich.Models.Authenciation;
 using X.PagedList;
 
 //asdasdd
@@ -18,39 +18,43 @@ namespace QBTourDuLich.Areas.Admin.Controllers
         //test
         [Route("")]
         [Route("Index")]
-        [Authentication]
+        [Authenciation_Admin]
         public IActionResult Index()
         {
-            ViewBag.Username = HttpContext.Session.GetString("UserName");
-
+           var user= HttpContext.Session.GetString("UserName");
+            var listX = (from a in db.NhanViens where a.UserName == user select a.TenNv).ToList(); ViewBag.username = listX[0].ToString();
+           
             /*  if (Session["U"])*/
             return View();
         }
         //diem tham quan
         [Route("DSDTQuan")]
-        [Authentication]
-		public IActionResult DSDTQuan()
+        [Authenciation_Admin]
+        public IActionResult DSDTQuan()
 		{
-			ViewBag.Username = HttpContext.Session.GetString("UserName");
-			var lstDTQ = (from a in db.DiemThamQuans select a).ToList();
+            var user = HttpContext.Session.GetString("UserName");
+            var listX = (from a in db.NhanViens where a.UserName == user select a.TenNv).ToList(); ViewBag.username = listX[0].ToString();
+            var lstDTQ = (from a in db.DiemThamQuans select a).ToList();
 			return View(lstDTQ);
 		}
         //tour du lich
         [Route("DSTour")]
-        [Authentication]
+        [Authenciation_Admin]
         public IActionResult DSTour()
         {
-            ViewBag.Username = HttpContext.Session.GetString("UserName");
+            var user = HttpContext.Session.GetString("UserName");
+            var listX = (from a in db.NhanViens where a.UserName == user select a.TenNv).ToList(); ViewBag.username = listX[0].ToString();
             var lstU = (from a in db.NhanViens select a).ToList();
             ViewBag.U = lstU;
             var lstTour = (from a in db.Tours select a).ToList();
             return View(lstTour);
         }
         [Route("ThemDDchoTour")]
-        [Authentication]
+        [Authenciation_Admin]
         public IActionResult ThemDDchoTour()
         {
-            ViewBag.Username = HttpContext.Session.GetString("UserName");
+            var user = HttpContext.Session.GetString("UserName");
+            var listX = (from a in db.NhanViens where a.UserName == user select a.TenNv).ToList(); ViewBag.username = listX[0].ToString();
             var lstTour = (from a in db.Tours
                          select new
                          {
@@ -70,57 +74,63 @@ namespace QBTourDuLich.Areas.Admin.Controllers
         
         //Nhan Vien
         [Route("danhsachnhansu")]
-		[Authentication]
-		public IActionResult danhsachnhansu()
+        [Authenciation_Admin]
+        public IActionResult danhsachnhansu()
 		{
-			ViewBag.Username = HttpContext.Session.GetString("UserName");
-			var lstNV = (from a in db.NhanViens select a).ToList();
+            var user = HttpContext.Session.GetString("UserName");
+            var listX = (from a in db.NhanViens where a.UserName == user select a.TenNv).ToList(); ViewBag.username = listX[0].ToString();
+            var lstNV = (from a in db.NhanViens select a).ToList();
             var lstU = (from a in db.TaiKhoans
-                        where a.Loai == 1 && !db.NhanViens.Select(nv => nv.UserName).Contains(a.UserName)
-                        select a.UserName).ToList();
+                        where !db.NhanViens.Select(nv => nv.UserName).Contains(a.UserName)
+                        select a).ToList();
             ViewBag.U = lstU;
             return View(lstNV);
 
 		}
         [Route("taikhoan")]
-        [Authentication]
+        [Authenciation_Admin]
         public IActionResult taikhoan()
         {
-            ViewBag.Username = HttpContext.Session.GetString("UserName");
+            var user = HttpContext.Session.GetString("UserName");
+            var listX = (from a in db.NhanViens where a.UserName == user select a.TenNv).ToList(); ViewBag.username = listX[0].ToString();
             var lstTK = (from a in db.TaiKhoans select a).ToList();
             return View(lstTK);
         }
 
         [Route("danhsachtintuc")]
-        [Authentication]
+        [Authenciation_Admin]
         public IActionResult danhsachtintuc()
         {
-            ViewBag.Username = HttpContext.Session.GetString("UserName");
+            var user = HttpContext.Session.GetString("UserName");
+            var listX = (from a in db.NhanViens where a.UserName == user select a.TenNv).ToList(); ViewBag.username = listX[0].ToString();
             var lstTT = (from a in db.News select a).ToList();
             var lstU = (from a in db.NhanViens  select a).ToList();
             ViewBag.U = lstU;
             return View(lstTT);
-        }
-        
-        [Route("khachsan")]
-        [Authentication]
-        public IActionResult khachsan()
-        {
-            ViewBag.Username = HttpContext.Session.GetString("UserName");
-            var lstKS = (from a in db.KhachSans select a).ToList();
-            var lstU = (from a in db.NhanViens select a.MaNv).ToList();
-            ViewBag.U = lstU;
-            return View(lstKS);
-        }
+        } 
         [Route("danhsachsukien")]
-        [Authentication]
+        [Authenciation_Admin]
         public IActionResult sukien()
         {
-            //ViewBag.Username = HttpContext.Session.GetString("UserName");
+            var user = HttpContext.Session.GetString("UserName");
+            var listX = (from a in db.NhanViens where a.UserName == user select a.TenNv).ToList(); ViewBag.username = listX[0].ToString();
             var lstTT = (from a in db.Events select a).ToList();
             var lstU = (from a in db.NhanViens select a).ToList();
             ViewBag.U = lstU;
             return View(lstTT);
         }
+        
+        [Route("khachsan")]
+        [Authenciation_Admin]
+        public IActionResult khachsan()
+        {
+            var user = HttpContext.Session.GetString("UserName");
+            var listX = (from a in db.NhanViens where a.UserName == user select a.TenNv).ToList(); ViewBag.username = listX[0].ToString();
+            var lstKS = (from a in db.KhachSans select a).ToList();
+            var lstU = (from a in db.NhanViens select a.MaNv).ToList();
+            ViewBag.U = lstU;
+            return View(lstKS);
+        }
+       
     }
 }

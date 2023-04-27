@@ -17,7 +17,15 @@ namespace QBTourDuLich.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                if (HttpContext.Session.GetString("Loai") == "1")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Writer");
+                }
+
             }
 
         }
@@ -31,34 +39,36 @@ namespace QBTourDuLich.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(TaiKhoan taiKhoan, int admin = 1, int user = 0)
+        public IActionResult Login(TaiKhoan user)
         {
             if (HttpContext.Session.GetString("UserName") == null)
             {
-                var tk1 = db.TaiKhoans.Where(x => x.UserName.Equals(taiKhoan.UserName) && x.Password.Equals(taiKhoan.Password) && x.Loai.Equals(0)).ToList().FirstOrDefault();
-                var tk2 = db.TaiKhoans.Where(x => x.UserName.Equals(taiKhoan.UserName) && x.Password.Equals(taiKhoan.Password) && x.Loai.Equals(1)).ToList().FirstOrDefault();
-                //var l = db.TaiKhoans.Count(m => m.Loai == loai);
-
-                if (tk1 != null)
+                var u = db.TaiKhoans.Where(x => x.UserName.Equals(user.UserName) && x.Password.Equals(user.Password)).FirstOrDefault();
+                if (u != null)
                 {
-
-                    HttpContext.Session.SetString("UserName", tk1.UserName.ToString());
-                    return Redirect("~/Home/Index");
+                    HttpContext.Session.SetString("Loai", u.Loai.ToString());
+                    HttpContext.Session.SetString("UserName", u.UserName.ToString());
+                    if (u.Loai == 1)
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else if (u.Loai == 0)
+                    {
+                        return RedirectToAction("Index", "Writer");
+                    }
                 }
-                if (tk2 != null)
+                else
                 {
-
-                    HttpContext.Session.SetString("UserName", tk2.UserName.ToString());
-                    return Redirect("~/Admin/Index");
+                    return View();
                 }
             }
-
-            return View();
+            return RedirectToAction("Index", "Admin");
         }
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             HttpContext.Session.Remove("UserName");
+            HttpContext.Session.Remove("Loai");
             return RedirectToAction("Index", "Home");
         }
         public IActionResult Register(TaiKhoan user)

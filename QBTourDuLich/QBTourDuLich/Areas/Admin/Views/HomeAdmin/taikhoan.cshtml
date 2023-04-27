@@ -27,7 +27,6 @@
                             <th>Password</th>
                             <th>ConfirmPassword</th>
                             <th></th>
-
                         </tr>
                     </thead>
                     <tbody id="tbody-taikhoan">
@@ -51,8 +50,11 @@
                     </div>
 
                     <div class="form-group">
-                        @*<label for="loai">Loai</label>*@
-                        <input type="hidden" class="form-control" id="loai" placeholder="UserName" value="1">
+                        <label for="loai">Loai</label>
+                        <select class="form-control form-control-lg" id="loai">   
+                                <option value="1">Admin</option>
+                                <option value="0">Writer</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>

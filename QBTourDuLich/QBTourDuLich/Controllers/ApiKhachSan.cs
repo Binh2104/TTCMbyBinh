@@ -89,6 +89,12 @@ namespace QBTourDuLich.Controllers
         [Route("themKS")]
         public async Task<IActionResult> AddKS([FromForm] KhachSanCreateInputMode input)
         {
+            var username = HttpContext.Session.GetString("UserName");
+
+            var userid = (from a in db.TaiKhoans
+                          join b in db.NhanViens on a.UserName equals b.UserName
+                          where a.UserName == username
+                          select b.MaNv.ToString()).FirstOrDefault();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -104,7 +110,7 @@ namespace QBTourDuLich.Controllers
             var newKS = new KhachSan
             {
                 MaKs = input.MaKs,
-                MaNv = input.MaNV,
+                MaNv = userid,
                 TenKs = input.TenKs,
                 DiaChi = input.DiaChi,
                 Sdt = input.Sdt,
@@ -123,9 +129,11 @@ namespace QBTourDuLich.Controllers
         {
             ViewBag.Username = HttpContext.Session.GetString("UserName");
             var username = HttpContext.Session.GetString("UserName");
+
             var userid = (from a in db.TaiKhoans
+                          join b in db.NhanViens on a.UserName equals b.UserName
                           where a.UserName == username
-                          select a.UserName.ToString()).FirstOrDefault();
+                          select b.MaNv.ToString()).FirstOrDefault();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -140,7 +148,7 @@ namespace QBTourDuLich.Controllers
 
             // Update the KhachSan object with the form data
             KS.MaKs = input.MaKs;
-            KS.MaNv = input.MaNV;
+            KS.MaNv = userid;
             KS.TenKs = input.TenKs;
             KS.DiaChi = input.DiaChi;
             KS.Sdt = input.Sdt;

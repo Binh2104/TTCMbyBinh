@@ -1,32 +1,35 @@
 ﻿
 @{
-    ViewData["Title"] = "danhsachtintuc";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "sukien";
+    Layout = "~/Areas/Writer/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 @section Scripts{
-    <script src="~/admin/layoutdmin/assets/js/tintuc.js"></script>
+  @*  <script src="~/admin/layoutdmin/assets/js/sukien.js"></script>*@
     <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
-    
+
 }
+
+
 <div class="content-wrapper ">
     <div class="page-header">
-        <h3 class="page-title"> Quản lý Tin Tức </h3>
+        <h3 class="page-title"> Quản lý sự kiện </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Tin Tức</li>
+                <li class="breadcrumb-item active" aria-current="page">Sự kiện</li>
             </ol>
         </nav>
     </div>
     <div class="col-lg-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Danh Sách Tin Tức</h4>
-                <table class="table table_tintuc table-bordered">
+                <h4 class="card-title">Danh Sách Sự Kiện</h4>
+                <table class="table table_sukien table-bordered">
                     <thead>
                         <tr class="table-info">
-                            <th>Mã Tin Tức</th>
-                            <th>Người Đăng Tin</th>
+                            <th>Mã Sự Kiện</th>
+                            <th>Người đăng</th>
                             <th>Ảnh</th>
                             <th>Mô Tả</th>
                             <th>Nội Dung</th>
@@ -34,42 +37,41 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody id="tbody-tintuc">
+                    <tbody id="tbody-event">
                     </tbody>
                 </table>
                 <br />
                 <div class="text-center">Page <span id="page-number">1</span></div>
-                <div id="pagination_tintuc"></div>
+                <div id="pagination_event"></div>
             </div>
         </div>
     </div>
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Tin Tức</h4>
+                <h4 class="card-title">Sự Kiện</h4>
                 <p class="card-description" id="card-action"></p>
-                <form class="forms-sample" id="form-tintuc">
+                <form class="forms-sample" id="form-event" method="post">
                     <div class="form-group">
-                        <label for="MaTinTuc">Mã Tin Tức</label>
-                        <input type="text" class="form-control" id="MaTinTuc" placeholder="Mã Tin Tức">
+                        <label for="MaSuKien">Mã sự kiện</label>
+                        <input type="text" class="form-control" id="MaSuKien" placeholder="Mã sự kiện">
                     </div>
-
                     <div class="form-group">
-                        <label for="anhdaidien">Ảnh đại diện:</label>
-                        <input type="file" id="avatar" name="anhdaidien" required>
+                        <label for="avatar">Ảnh đại diện:</label>
+                        <input type="file" id="avatar" required>
                     </div>
                     <div class="form-group">
                         <label for="Mota">Mô Tả</label>
-                        <input rows="15" type="text" class="form-control" id="Mota" placeholder="Mô tả">
+                        <input type="text" class="form-control" id="Mota" placeholder="Mô tả">
                     </div>
                     <div class="form-group">
                         <label for="noidung">Nội dung</label>
-                        <textarea rows="35" class="form-control" id="noidung" placeholder="Nội Dung"></textarea>
+                        <input type="text" class="form-control" id="noidung" placeholder="Mô tả">
                     </div>
-                    <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertTT()">
+                    <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertEvent()">
                         <i class="mdi mdi-upload btn-icon-prepend"></i>Thêm
                     </button>
-                    <button type="button" class="btn btn-gradient-dark btn-icon-text" onclick="UpdateTT()">
+                    <button type="button" class="btn btn-gradient-dark btn-icon-text" onclick="UpdateEvent()">
                         Sửa <i class="mdi mdi-file-check btn-icon-append"></i>
                     </button>
                     <button type="button" class="btn btn-gradient-warning btn-icon-text" onclick="resetInput()">
@@ -80,18 +82,18 @@
         </div>
     </div>
 </div>
-
+<script src="~/admin/layoutdmin/assets/js/sukien.js"></script>
 <style>
-    table.table_tintuc {
+    table.table_sukien {
         table-layout: fixed;
         width: 100%;
     }
-
     td, th {
-        max-width: 250px; /* adjust the width to your preference */
+        max-width: 200px; /* adjust the width to your preference */
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 
 </style>
+

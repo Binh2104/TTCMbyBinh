@@ -89,20 +89,27 @@ namespace QBTourDuLich.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var username = HttpContext.Session.GetString("UserName");
+            
+            var userid = (from a in db.TaiKhoans
+                          join b in db.NhanViens on a.UserName equals b.UserName
+                          where a.UserName == username
+                          select b.MaNv.ToString()).FirstOrDefault();
+            Console.WriteLine(userid);
             // Upload the image to the server
             string fileName = await UploadImage(input.Anh);
-            /*var DDCheck = (from a in db.Events
+            var DDCheck = (from a in db.Events
                            where a.MaSk == input.MaSK
                            select a).ToList();
-            if (DDCheck != null)
+            if (DDCheck.Count() > 0)
             {
                 return BadRequest("Đã Tồn Tại !");
-            }*/
+            }
 
             var newEvent = new Event
             {
                 MaSk = input.MaSK,
-                MaNv=input.MaNv,
+                MaNv=userid,
                 MoTa=input.MoTa,
                 NoiDung=input.NoiDung,
                 TenFileAnh=fileName,
@@ -129,35 +136,64 @@ namespace QBTourDuLich.Controllers
             }
             return fileName;
         }
-
-
-        [HttpDelete]
-        [Route("xoa")]
-        public IActionResult DeleteRecord(string matour, string madd)
+        [HttpPut]
+        [Route("capnhatEvent")]
+        public async Task<IActionResult> UpdateTTAsync([FromForm] EventCreateInputMode input)
         {
-            var tour = db.Tours.FirstOrDefault(x => x.MaTour == matour);
-            var dtq = db.DiemThamQuans.FirstOrDefault(x => x.MaDd == madd);
-
-            if (tour == null || dtq == null)
+            ViewBag.Username = HttpContext.Session.GetString("UserName");
+            var username = HttpContext.Session.GetString("UserName");
+            var userid = (from a in db.TaiKhoans
+                          join b in db.NhanViens on a.UserName equals b.UserName
+                          where a.UserName == username
+                          select b.MaNv.ToString()).FirstOrDefault();
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Tour hoặc điểm thăm quan không tồn tại.");
+                return BadRequest(ModelState);
             }
 
-            var recordtourdtq = db.DiaDiemTours.FirstOrDefault(x => x.MaTour == matour && x.MaDd == madd);
-
-            if (recordtourdtq == null)
+            // Find the DiemThamQuan in the database by id
+            var SK = await db.Events.FindAsync(input.MaSK);
+            if (SK == null)
             {
-                return BadRequest("Không tìm thấy bản ghi để xóa.");
+                return NotFound();
             }
 
-            db.DiaDiemTours.Remove(recordtourdtq);
-            db.SaveChanges();
+            // Update the TinTuc object with the form data
+            SK.MaSk = input.MaSK;
+            SK.MoTa = input.MoTa;
+            SK.MaNv = userid;
+            SK.NoiDung = input.NoiDung;
+
+
+            // Upload the image to the server and update the TinTuc object with the new image name
+            if (input.Anh != null)
+            {
+                string fileName = await UploadImage(input.Anh);
+                SK.TenFileAnh = fileName;
+            }
+
+            // Update the TinTuc in the database
+            db.Events.Update(SK);
+            await db.SaveChangesAsync();
 
             return Ok();
         }
-        public IActionResult Index()
+
+
+        [HttpDelete]
+        public IActionResult DeleteTT(string input)
         {
-            return View();
+            var DDCheck = (from a in db.Events
+                           where a.MaSk == input
+                           select a).FirstOrDefault();
+            if (DDCheck == null)
+            {
+                return BadRequest("Khong tim thay sự kiện nào!");
+            }
+            db.Events.Remove(DDCheck);
+            db.SaveChanges();
+
+            return Ok(input);
         }
     }
 }

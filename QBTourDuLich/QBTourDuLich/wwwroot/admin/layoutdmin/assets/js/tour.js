@@ -66,7 +66,6 @@ function setPage(pageNumber) {
 }
 function resetInput() {
     $("#MaTour").val("").change()
-    $("#MaNV").val("").change()
     $("#TenTour").val("").change()
     $("#XepHangTour").val("").change()
     $("#avartar").val("").change()
@@ -75,7 +74,6 @@ function resetInput() {
 }
 function InsertTour() {
     var matour = $("#MaTour").val();
-    var manv = $("#MaNV").val();
     var tentour = $("#TenTour").val();
     var xh = $("#XepHangTour").val();
     var mota = $("#MoTa").val();
@@ -84,7 +82,6 @@ function InsertTour() {
     var formData = new FormData();
 
     formData.append("maTour", matour);
-    formData.append("maNv", manv);
     formData.append("tenTour", tentour);
     formData.append("xepHangTour", xh);
     formData.append("moTa", mota);
@@ -109,7 +106,6 @@ function InsertTour() {
 }
 function UpdateTour() {
     var matour = $("#MaTour").val();
-    var matnv = $("#MaNV").val();
     var tentour = $("#TenTour").val();
     var xh = $("#XepHangTour").val();
     var mota = $("#MoTa").val();
@@ -118,7 +114,6 @@ function UpdateTour() {
     var formData = new FormData();
 
     formData.append("maTour", matour);
-    formData.append("maNv", matnv);
     formData.append("tenTour", tentour);
     formData.append("xepHangTour", xh);
     formData.append("moTa", mota);
@@ -154,7 +149,6 @@ function updateTourFill(id) {
         },
         success: function (response) {
             $("#MaTour").val(response.maTour.trim())
-            $("#MaNV").val(response.maNv.trim())
             $("#TenTour").val(response.tenTour.trim()).change()
             $("#XepHangTour").val(response.xepHangTour).change()
             $("#MoTa").val(response.moTa.trim()).change()

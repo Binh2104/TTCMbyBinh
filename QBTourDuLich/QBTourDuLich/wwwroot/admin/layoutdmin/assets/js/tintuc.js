@@ -67,7 +67,6 @@ function setPage(pageNumber) {
 
 function resetInput() {
     $("#MaTinTuc").val("").change()
-    $("#MaNV").val("").change()
     $("#avatar").val("").change()
     $("#Mota").val("").change()
     $("#noidung").val("").change()
@@ -75,15 +74,12 @@ function resetInput() {
 }
 function InsertTT() {
     var maTT = $("#MaTinTuc").val();
-    var maNV = $("#MaNV").val();
     var MoTa = $("#Mota").val();
     var NoiDung = $("#noidung").val();
-
     var formData = new FormData();
 
-    formData.append("maTin", maTT);
-    formData.append("maNv", maNV);
-    formData.append("tenFileAnh", $("#avatar")[0].files[0]);
+    formData.append("maTin", maTT);  
+    formData.append("anh", $("#avatar")[0].files[0]);
     formData.append("moTa", MoTa);
     formData.append("noiDung", NoiDung);
     
@@ -109,16 +105,13 @@ function InsertTT() {
 
 function UpdateTT() {
     var maTT = $("#MaTinTuc").val();
-    var maNV = $("#MaNV").val();
-
     var MoTa = $("#Mota").val();
     var NoiDung = $("#noidung").val();
     var formData = new FormData();
 
     formData.append("maTin", maTT);
-    formData.append("maNv", maNV);
 
-    formData.append("tenFileAnh", $("#avatar")[0].files[0]);
+    formData.append("anh", $("#avatar")[0].files[0]);
     formData.append("moTa", MoTa);
     formData.append("noiDung", NoiDung);
 
@@ -153,7 +146,6 @@ function updateTTFill(id) {
         },
         success: function (response) {
             $("#MaTinTuc").val(response.maTin.trim())
-            $("#MaNV").val(response.maNv.trim())
             $("#avatar").val(response.tenFileAnh.trim()).change()
             $("#Mota").val(response.moTa.trim())
             $("#noidung").val(response.noiDung.trim())

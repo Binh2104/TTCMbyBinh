@@ -2,6 +2,7 @@
 using QBTourDuLich.InputModelsApi;
 using QBTourDuLich.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Net.WebSockets;
 
 namespace QBTourDuLich.Controllers
 {
@@ -11,13 +12,12 @@ namespace QBTourDuLich.Controllers
     public class APITinTuc : Controller
     {
 
-        QbdulichContext db = new QbdulichContext();
+       QbdulichContext db = new QbdulichContext();
         [HttpGet]
         public IActionResult getAllTinTuc()
         {
-            var x = (from a in db.News
-					 join b in db.NhanViens on a.MaNv equals b.MaNv
-					 select new
+            var x = (from a in db.News join b in db.NhanViens on a.MaNv equals b.MaNv
+                     select new
                      {
                          b.TenNv,
                          a.MaTin,
@@ -45,16 +45,17 @@ namespace QBTourDuLich.Controllers
         public IActionResult GetAllTintucPagination([Range(1, 100)] int pageSize,
            [Range(1, int.MaxValue)] int pageNumber)
         {
-            var listTT = (from a in db.News join b in db.NhanViens on a.MaNv equals b.MaNv
+            var listTT = (from a in db.News
+                           join b in db.NhanViens on a.MaNv equals b.MaNv
                           select new
-                          {
-                              b.TenNv,
-                              a.MaTin,
-                              a.MaNv,
-                              a.TenFileAnh,
-                              a.MoTa,
-                              a.NoiDung
-                          })
+                        {
+                         b.TenNv,
+                         a.MaTin,
+                         a.MaNv,
+                         a.TenFileAnh,
+                         a.MoTa,
+                         a.NoiDung
+                     })
                               .Skip((pageNumber - 1) * pageSize)
                               .Take(pageSize)
                               .ToList();
@@ -69,17 +70,17 @@ namespace QBTourDuLich.Controllers
         public IActionResult GetTintucId(string id)
         {
             var TT = (from a in db.News
-					  join b in db.NhanViens on a.MaNv equals b.MaNv
-                      where a.MaTin==id
-					  select new
-					  {
-						  b.TenNv,
-						  a.MaTin,
-						  a.MaNv,
-						  a.TenFileAnh,
-						  a.MoTa,
-						  a.NoiDung
-					  }) .FirstOrDefault();
+                      join b in db.NhanViens on a.MaNv equals b.MaNv
+                      where a.MaTin == id
+                      select new
+                      {
+                          b.TenNv,
+                          a.MaTin,
+                          a.MaNv,
+                          a.TenFileAnh,
+                          a.MoTa,
+                          a.NoiDung
+                      }).FirstOrDefault();
             return Ok(TT);
         }
         [HttpPost]
@@ -90,6 +91,10 @@ namespace QBTourDuLich.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var username = HttpContext.Session.GetString("UserName");
+            var userid = (from a in db.TaiKhoans join b in db.NhanViens on a.UserName equals b.UserName
+                          where a.UserName == username
+                          select b.MaNv.ToString()).FirstOrDefault();
             // Upload the image to the server
             string fileName = await UploadImage(input.Anh);
             var DDCheck = db.News.Select(x => x.MaTin).ToList();
@@ -101,7 +106,7 @@ namespace QBTourDuLich.Controllers
             var newTT = new News
             {
                 MaTin = input.MaTin,
-                MaNv = input.MaNv,
+                MaNv = userid,
                 TenFileAnh = fileName,
                 MoTa = input.MoTa,
                 NoiDung = input.NoiDung
@@ -120,8 +125,9 @@ namespace QBTourDuLich.Controllers
             ViewBag.Username = HttpContext.Session.GetString("UserName");
             var username = HttpContext.Session.GetString("UserName");
             var userid = (from a in db.TaiKhoans
+                          join b in db.NhanViens on a.UserName equals b.UserName
                           where a.UserName == username
-                          select a.UserName.ToString()).FirstOrDefault();
+                          select b.MaNv.ToString()).FirstOrDefault();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -136,7 +142,7 @@ namespace QBTourDuLich.Controllers
 
             // Update the TinTuc object with the form data
             TT.MaTin = input.MaTin;
-            TT.MaNv = input.MaNv;
+            TT.MaNv = userid;
             TT.MoTa = input.MoTa;
             TT.NoiDung = input.NoiDung;
 
@@ -188,8 +194,6 @@ namespace QBTourDuLich.Controllers
             {
                 return BadRequest("Khong tim thay tin tuc!");
             }
-            var list = db.News.Where(x => x.MaTin == input);
-            if (list != null) db.RemoveRange(list);
             db.News.Remove(DDCheck);
             db.SaveChanges();
 

@@ -1,10 +1,10 @@
 ﻿$(document).ready(function () {
-    getAllSukien();
+    getAllEvent();
 });
 
-function getAllSukien() {
+function getAllEvent() {
     $.ajax({
-        url: `https://localhost:7079/api/ApiEvent`,
+        url: `https://localhost:7079/api/APIEvent`,
         method: 'GET',
         contentType: 'json',
         dataType: 'json',
@@ -14,9 +14,9 @@ function getAllSukien() {
         success: function (response) {
             var count = parseInt(response.totalCount);
             const pageNumber = 1;
-            const pageSize = 5;
+            const pageSize = 3;
             $.ajax({
-                url: `https://localhost:7079/api/ApiEvent/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
+                url: `https://localhost:7079/api/APIEvent/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
                 method: 'GET',
                 contentType: 'json',
                 dataType: 'json',
@@ -31,10 +31,10 @@ function getAllSukien() {
                     console.log("fail");
                 }
             });
-        },
-    })
+        }
+    });
 }
-$("#form-sukien").submit(function (e) {
+$("#form-event").submit(function (e) {
     e.preventDefault();
 })
 function renderPagination(totalPages, currentPage) {
@@ -42,14 +42,14 @@ function renderPagination(totalPages, currentPage) {
     for (let i = 1; i <= totalPages; i++) {
         pagination += `<button class="btn ${i === currentPage ? 'btn-primary' : 'btn-outline-primary'}" onclick="setPage(${i})">${i}</button> `;
     }
-    document.getElementById('pagination_sukien').innerHTML = pagination;
+    document.getElementById('pagination_event').innerHTML = pagination;
 }
 
 function setPage(pageNumber) {
-    const pageSize = 5;
+    const pageSize = 3;
     document.getElementById('page-number').innerHTML = pageNumber;
     $.ajax({
-        url: `https://localhost:7079/api/ApiEvent/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
+        url: `https://localhost:7079/api/APIEvent/getPagination?pageSize=${pageSize}&pagenumber=${pageNumber}`,
         method: 'GET',
         contentType: 'json',
         dataType: 'json',
@@ -64,30 +64,25 @@ function setPage(pageNumber) {
         }
     });
 }
-
 function resetInput() {
     $("#MaSuKien").val("").change()
-    $("#MaNV").val("").change()
     $("#avatar").val("").change()
     $("#Mota").val("").change()
     $("#noidung").val("").change()
 }
-function InsertSK() {
-    var maTT = $("#MaSuKien").val();
-    var maNV = $("#MaNV").val();
-    var MoTa = $("#Mota").val();
-    var NoiDung = $("#noidung").val();
+function InsertEvent() {
+    var mask = $("#MaSuKien").val();
+    var mota = $("#Mota").val();
+    var noidung = $("#noidung").val();
 
     var formData = new FormData();
 
-    formData.append("maSk", maTT);
-    formData.append("maNv", maNV);
-    formData.append("tenFileAnh", $("#avatar")[0].files[0]);
-    formData.append("moTa", MoTa);
-    formData.append("noiDung", NoiDung);
+    formData.append("maSk", mask);
+    formData.append("moTa", mota);
+    formData.append("noiDung", noidung);
+    formData.append("anh", $("#avatar")[0].files[0]);
 
-
-    var url = 'https://localhost:7079/api/ApiEvent/themEvent';
+    var url = 'https://localhost:7079/api/APIEvent/themEvent';
     $.ajax({
         url: url,
         method: 'POST',
@@ -100,25 +95,23 @@ function InsertSK() {
         success: function (response) {
             alert("Thêm mới thành công");
             resetInput();
-            getAllSukien(); //Gọi đến hàm lấy dữ liệu lên bảng
+            getAllEvent(); //Gọi đến hàm lấy dữ liệu lên bảng
         }
     });
 }
-
-function UpdateSK() {
-    var maTT = $("#MaSuKien").val();
-    var maNV = $("#MaNV").val();
-    var MoTa = $("#Mota").val();
-    var NoiDung = $("#noidung").val();
+function UpdateEvent() {
+    var mask = $("#MaSuKien").val();
+    var mota = $("#Mota").val();
+    var noidung = $("#noidung").val();
 
     var formData = new FormData();
-    formData.append("maSk", maTT);
-    formData.append("maNv", maNV);
-    formData.append("tenFileAnh", $("#avatar")[0].files[0]);
-    formData.append("moTa", MoTa);
-    formData.append("noiDung", NoiDung);
 
-    var url = 'https://localhost:7079/api/ApiEvent/capnhatSK';
+    formData.append("maSk", mask);
+    formData.append("moTa", mota);
+    formData.append("noiDung", noidung);
+    formData.append("anh", $("#avatar")[0].files[0]);
+
+    var url = 'https://localhost:7079/api/APIEvent/capnhatEvent';
     $.ajax({
         url: url,
         method: 'PUT',
@@ -127,18 +120,17 @@ function UpdateSK() {
         data: formData,
         error: function (error) {
             alert("Có lỗi xảy ra");
-            getAllSukien();
         },
         success: function (response) {
             alert("Cập nhật thành công");
             resetInput();
-            getAllSukien(); //Gọi đến hàm lấy dữ liệu lên bảng
+            getAllEvent(); //Gọi đến hàm lấy dữ liệu lên bảng
         }
     });
 }
 
-function updateSKFill(id) {
-    var url = 'https://localhost:7079/api/ApiEvent/getById?id=' + id;
+function updateEventFill(id) {
+    var url = 'https://localhost:7079/api/APIEvent/getById?id=' + id;
     $.ajax({
         url: url,
         method: 'GET',
@@ -149,15 +141,15 @@ function updateSKFill(id) {
         },
         success: function (response) {
             $("#MaSuKien").val(response.maSk.trim())
-            $("#MaNV").val(response.maNv.trim())
             $("#avatar").val(response.tenFileAnh.trim()).change()
-            $("#Mota").val(response.moTa.trim())
-            $("#noidung").val(response.noiDung.trim())
+            $("#Mota").val(response.moTa.trim()).change()
+            $("#noidung").val(response.noiDung.trim()).change()
+            /*$("#avatar").val(response.tenFileAnh.trim()).change()*/
         }
     });
 }
 
-function deleteSK(id) {
+function deleteEvent(id) {
     var url = 'https://localhost:7079/api/ApiEvent?input=' + id;
     $.ajax({
         url: url,
@@ -166,19 +158,19 @@ function deleteSK(id) {
         dataType: 'json',
         error: function (response) {
             /* alert("Xóa không thành công");*/
-            getAllSukien();
+            getAllEvent();
         },
         success: function (response) {
             alert("Xóa thành công");
-            getAllSukien(); //Gọi đến hàm lấy dữ liệu lên bảng
+            getAllEvent();; //Gọi đến hàm lấy dữ liệu lên bảng
         }
     });
 }
-
 function renderTable(response) {
     const len = response.items.length;
     let table = '';
     let cls = "table-success";
+
     for (var i = 0; i < len; ++i) {
         if (i % 2 == 0) {
             cls = "table-primary";
@@ -190,14 +182,14 @@ function renderTable(response) {
         table = table + '<td>' + response.items[i].maSk.trim() + '</td>';
         table = table + '<td>' + response.items[i].tenNv.trim() + '</td>';
         table = table + `<td class="py-1">
-                    <img src="../../img/events/${!!response.items[i].tenFileAnh ? response.items[i].tenFileAnh.trim() : 'default-avatar.png'}" alt="image" />
+                    <img src="../../img/anhEvent/${!!response.items[i].tenFileAnh ? response.items[i].tenFileAnh.trim() : 'default-avatar.png'}" alt="image" />
                 </td>`;
         table = table + '<td>' + response.items[i].moTa.trim() + '</td>';
         table = table + '<td>' + response.items[i].noiDung.trim() + '</td>';
+        /* table = table + '<td>' + response.items[i].moTa.trim() + '</td>';*/
 
-        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-info btn-rounded btn-icon" onclick="updateSKFill(\'' + response.items[i].maSk.trim() + '\')">Edit</i></button> ' + '</td>';
-        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick=" deleteSK(\'' + response.items[i].maSk.trim() + '\')">Delete</button> ' + '</td>';
-        /* table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick="ChiTietTT(\'' + response.items[i].maSk.trim() + '\')">Chi Tiết</button> ' + '</td>';*/
+        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-info btn-rounded btn-icon" onclick="updateEventFill(\'' + response.items[i].maSk.trim() + '\')">Edit</i></button> ' + '</td>';
+        table = table + '<td>' + ' <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" onclick="deleteEvent(\'' + response.items[i].maSk.trim() + '\')">Delete</button> ' + '</td>';
     }
-    document.getElementById('tbody-sukien').innerHTML = table;
+    document.getElementById('tbody-event').innerHTML = table;
 }

@@ -4,7 +4,7 @@ namespace QBTourDuLich.InputModelsApi
     public class TourCreateInputModel
     {
         public string MaTour { get; set; } = null!;
-        public string MaNV { get; set; } = null!;
+       /* public string MaNV { get; set; } = null!;*/
 
         public string TenTour { get; set; } = null!;
 

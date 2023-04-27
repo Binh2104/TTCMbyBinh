@@ -49,15 +49,6 @@
                     <label for="MaTour">Mã Tour</label>
                     <input type="text" class="form-control" id="MaTour" placeholder="Mã Tour">
                 </div>
-                    <div class="form-group">
-                        <label for="MaNV">Người đăng</label>
-                        <select class="form-control form-control-lg" id="MaNV">
-                            @foreach (var item in ViewBag.U)
-                            {
-                                <option value="@item.MaNv">@item.TenNv.ToString()</option>
-                            }
-                        </select>
-                    </div>
                 <div class="form-group">
                     <label for="TenTour">Tên Tour</label>
                     <input type="text" class="form-control" id="TenTour" placeholder="Tên Tour">
@@ -79,7 +70,8 @@
                 </div>
                 <div class="form-group">
                     <label for="MoTa">Mô Tả</label>
-                        <input type="text" class="form-control" id="MoTa" placeholder="Mô Tả">
+                        <textarea rows="7" type="text" class="form-control" id="MoTa" placeholder="Mô Tả">
+                        </textarea>
                 </div>
                     <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertTour()">
                         <i class="mdi mdi-upload btn-icon-prepend"></i>Thêm

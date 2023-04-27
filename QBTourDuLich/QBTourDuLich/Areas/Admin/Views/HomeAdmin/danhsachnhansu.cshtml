@@ -70,7 +70,15 @@
                                     <select class="form-control form-control-lg" id="UserName">
                                         @foreach (var item in ViewBag.U)
                                             {
-                                                <option value="@item">@item.ToString()</option>
+                                            var x="";
+                                            if(item.Loai==1){
+                                                x = "Admin";
+                                            }
+                                            else{
+                                                x = "Writer";
+
+                                            }
+                                            <option value="@item.UserName">@item.UserName-@x</option>
                                             }
                                     </select>
                                 </label>
@@ -95,7 +103,18 @@
                     </label>
                 </div>
             </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="diachi">
+                                    Địa Chỉ
+                                    <input type="text" class="form-control" id="diachi" placeholder="Địa Chỉ">
+                                </label>
+                            </div>
+                        </div>
          </div>
+                  
+                       
+                  
                 <button type="button" class="btn btn-gradient-danger btn-icon-text" onclick="InsertNV()">
                         <i class="mdi mdi-upload btn-icon-prepend"></i>Thêm
                     </button>
