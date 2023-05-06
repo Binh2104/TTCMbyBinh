@@ -24,7 +24,7 @@ namespace QBTourDuLich.Controllers
 		public IActionResult DiemDen(int page = 1)
 		{
 			int pageNumber = page;
-			int pageSize = 3;
+			int pageSize = 6;
 			var lstsanpham = db.Tours.OrderBy(x => x.TenTour).ToList();
 			PagedList<Tour> lst = new PagedList<Tour>(lstsanpham, pageNumber, pageSize);
 			return View(lst);
@@ -54,7 +54,7 @@ namespace QBTourDuLich.Controllers
 		{
 			if (SearchString != "")
 			{
-                int pageSize = 5;
+                int pageSize = 6;
                 int pageNumber = page;
                 var listSP = db.News.Where(x => x.MoTa.ToUpper().Contains(SearchString.ToUpper())).ToList();
                 PagedList<News> lst = new PagedList<News>(listSP, pageNumber, pageSize);
@@ -91,7 +91,7 @@ namespace QBTourDuLich.Controllers
         public IActionResult KhachSan(int page = 1)
         {
             int pageNumber = page;
-            int pageSize = 3;
+            int pageSize = 6;
             var lstsanpham = db.KhachSans.OrderBy(x => x.TenKs).ToList();
             PagedList<KhachSan> lst = new PagedList<KhachSan>(lstsanpham, pageNumber, pageSize);
             return View(lst);
